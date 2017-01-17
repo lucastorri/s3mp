@@ -2,11 +2,15 @@
 
 `S3MP` is a simple protocol for defining communication between two devices. It is a [Master/Slave](https://en.wikipedia.org/wiki/Master/slave_(technology)) protocol.
 
-Encoded messages are terminated by the marker `0x00`.
+## Motivation
+
+This protocol was created for being used on personal projects where two devices need to exchange data through a serial channel. Think of a Raspberry Pi sending commands to an Arduino that has a lot of sensors plugged to it.
 
 ## Transport
 
 Messages are transported using [Consistent Overhead Byte Stuffing](https://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing) (COBS), as detailed on [this paper](http://www.stuartcheshire.org/papers/cobsforton.pdf).
+
+Encoded messages are terminated by the marker `0x00`.
 
 The following is a small variation of the original C code, that returns the number of bytes read/written:
 
