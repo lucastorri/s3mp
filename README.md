@@ -8,9 +8,13 @@ This protocol was created for being used on personal projects where two devices 
 
 ## Transport
 
-Messages are transported using [Consistent Overhead Byte Stuffing](https://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing) (COBS), as detailed on [this paper](http://www.stuartcheshire.org/papers/cobsforton.pdf).
+Messages are encoded using [Consistent Overhead Byte Stuffing](https://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing) (COBS), as detailed on [this paper](http://www.stuartcheshire.org/papers/cobsforton.pdf).
 
-Encoded messages are terminated by the marker `0x00`.
+Encoded messages are terminated by the marker `0x00`. In sum, the transmitted data is the following:
+
+```
+COBS(message) + CHECKSUM(COBS(message)) + MARKER
+```
 
 The following is a small variation of the original C code, that returns the number of bytes read/written:
 
@@ -100,9 +104,9 @@ The message format is the following:
    0                   1                   2                   3
    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  |   Checksum    | Command Code  |    Address    |    Counter    |
+  | Command Code  |    Address    |    Counter    |    Data ...
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  |  Data (flexible size)                                         |
+     ... (variable size)                                          |
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
 
@@ -177,9 +181,9 @@ Responses are messages from the slave to master, that answer commands issued by 
    0                   1                   2                   3
    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  |   Checksum    | Response Code |    Address    |    Counter    |
+  | Response Code |    Address    |    Counter    |    Data ...
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-  |  Data (flexible size)                                         |
+     ... (variable size)                                          |
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
 
@@ -221,21 +225,6 @@ Its fields are:
 - Details
     - `PUSH` is fire-and-forget and can be sent at any time
     - `Counter` is set to 0
-
-
-## Examples
-
-### Status Command
-
-```
-0x01 0x01 0x01 0x01 0x00
-```
-
-### Describe Command
-
-```
-0x03 0xFE 0x02 0x01 0x00
-```
 
 
 ## Patterns
