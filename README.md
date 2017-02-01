@@ -149,6 +149,12 @@ ADDRESS: -1-- -2------ -3--
 - Responses:
     - `ACK` with empty data, if successful
 
+### `INVERT` [0x12]
+
+- Description: If the sensor/actuator is a boolean value (`true`/`false`), invert its value from `false` to `true`, and vice-versa.
+- Responses:
+  - `ACK` with the new value
+
 ### `SUBSCRIBE` [0xA0]
 
 - Description: subscribe to a sensor, receiving `PUSH` notifications later
