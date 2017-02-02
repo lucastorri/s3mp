@@ -94,6 +94,11 @@ Sensors, actuators, and the device itself are represented by different addresses
 - Any other address (`0x00` - `0xFE`) represents sensors/actuators.
 
 
+## Counters
+
+Counters should have values between `0x01` and `0xFF`. Counters with `0x00` should be used on `PUSH` notifications or when the Slave replies with errors (i.e. `BAD_REQUEST` or `INVALID`). When a command is understood by the Slave, it should reply using the same counter value. If a reply with a counter value different from the expected is received, the command can be marked as failed.
+
+
 ## Commands
 
 Commands are messages sent from master to slave. They can be sent to the slave host, or any of the sensors/actuators available. Every command issued by the master must be followed by a response from the slave. New commands cannot be issue while a response wasn't received. Every command can be responded with an `ERROR` message, detailing the issue that happened.
