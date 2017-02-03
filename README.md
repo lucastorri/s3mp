@@ -127,7 +127,7 @@ The fields are:
 
 - Description: Check the status of the slave
 - Responses:
-    - `ACK`, if slave is OK
+    - `ACK`, if slave is OK, optinally with the timestamp of when the device was started
 
 ### `DESCRIBE` [0x02]
 
@@ -243,6 +243,10 @@ Its fields are:
 - Establish the connection by sending `STATUS` commands
     - Send a `RESET` when master starts
     - Poll the slave with `STATUS` messages, till an `ACK` is received
+
+- Monitor the Slave with `STATUS` commands
+    - Send `STATUS` every defined interval
+    - If the slave didn't reply a number of times, consider it to be down
 
 - Use `SUBSCRIBE` together with regular `GET`, to prevent lost messages from not updating the data
     - `SUBSCRIBE` to an address
