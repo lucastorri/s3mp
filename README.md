@@ -230,9 +230,14 @@ Its fields are:
 
 - Description: sends back a generic error, where the data contains a message detailing it
 
+
+### `DEBUG` [0xDE]
+
+- Description: sends debug messages from the device. These messages can be safely ignored. It is a device initiated operation.
+
 ### `PUSH` [0xA0]
 
-- Description: sends updates from a subscribed address
+- Description: sends updates from a subscribed address. It is also a device initiated operation.
 - Details
     - `PUSH` is fire-and-forget and can be sent at any time
     - `Counter` is set to 0
