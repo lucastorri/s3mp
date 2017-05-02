@@ -258,3 +258,4 @@ Its fields are:
     - Use timeouts and send a `GET` if no `PUSH` was received in a while
     - Use `PUSH` messages as soon as received
 
+- Encode data using [CBOR](http://cbor.me/)
